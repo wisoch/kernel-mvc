@@ -3,7 +3,7 @@
 namespace Kernel\Mvc;
 
 use Zend\ServiceManager\Factory\InvokableFactory;
-use Hqq\Kernel\View;
+use Kernel\Db;
 
 class ConfigProvider
 {
@@ -11,13 +11,15 @@ class ConfigProvider
     {
         return [
             'abstract_factories' => [
-                
+                Db\Adapter\AdapterAbstractServiceFactory::class,
             ],
             'aliases' => [
-                'HttpListener' => HttpListener::class,
+                'HttpListener'      => HttpListener::class,
             ],
             'factories' => [
-                HttpListener::class => Service\HttpListenerFactory::class,
+                'Kernel\Log\Logger' => Service\LoggerFactory::class,
+                HttpListener::class => InvokableFactory::class,
+                Db\Adapter\Profiler\Profiler::class => Db\Adapter\Profiler\Service\ProfilerFactory::class,
             ],
         ];
     }
