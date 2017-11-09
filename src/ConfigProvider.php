@@ -3,6 +3,7 @@
 namespace Kernel\Mvc;
 
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Mvc;
 use Kernel\Db;
 
 class ConfigProvider
@@ -24,14 +25,29 @@ class ConfigProvider
         ];
     }
 
+    public function getControllerConfig()
+    {
+        return [
+            'abstract_factories' => [
+                Mvc\Controller\LazyControllerAbstractFactory::class,
+            ],
+            'aliases' => [
+
+            ],
+            'factories' => [
+
+            ],
+        ];
+    }
+
     public function getControllerPluginConfig()
     {
         return [
             'aliases' => [
-                
+
             ],
             'factories' => [
-                
+
             ],
         ];
     }
@@ -40,10 +56,10 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-                
+
             ],
             'factories' => [
-                
+
             ],
         ];
     }
@@ -52,10 +68,11 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-                
+                'Domain' => View\Helper\Domain::class,
+                'domain' => View\Helper\Domain::class
             ],
             'factories' => [
-                
+                View\Helper\Domain::class => View\Helper\Service\DomainFactory::class,
             ],
         ];
     }
