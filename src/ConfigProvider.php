@@ -16,11 +16,15 @@ class ConfigProvider
             ],
             'aliases' => [
                 'HttpListener'      => HttpListener::class,
+                'ModelManager'      => Model\ModelManager::class,
+                'TableManager'      => Table\TableManager::class,
             ],
             'factories' => [
                 'Kernel\Log\Logger' => Service\LoggerFactory::class,
                 HttpListener::class => InvokableFactory::class,
                 Db\Adapter\Profiler\Profiler::class => Db\Adapter\Profiler\Service\ProfilerFactory::class,
+                Model\ModelManager::class           => Service\ModelManagerFactory::class,
+                Table\TableManager::class           => Service\TableManagerFactory::class,
             ],
         ];
     }
@@ -44,10 +48,12 @@ class ConfigProvider
     {
         return [
             'aliases' => [
-
+                'model'    => Controller\Plugin\Model::class,
+                'identity' => Controller\Plugin\Identity::class,
             ],
             'factories' => [
-
+                Controller\Plugin\Model::class    => Controller\Plugin\Service\ModelFactory::class,
+                Controller\Plugin\Identity::class => InvokableFactory::class,
             ],
         ];
     }
