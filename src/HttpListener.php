@@ -7,6 +7,8 @@ use Zend\Mvc\MvcEvent;
 
 use Zend\EventManager\AbstractListenerAggregate;
 use Zend\EventManager\EventManagerInterface;
+use Zend\View\Model\ModelInterface;
+use Zend\Stdlib\ResponseInterface;
 
 class HttpListener extends AbstractListenerAggregate
 {
@@ -38,23 +40,26 @@ class HttpListener extends AbstractListenerAggregate
         $logger = $services->get('Kernel\Log\Logger');
 
         $result = $e->getResult();
-        if ($e->isError()) {
-            $reason = $result->getVariable('reason');
-            if ($reason) {
-                $logger->info($reason);
+        if ($result instanceof ModelInterface) {
+            if ($e->isError()) {
+                $reason = $result->getVariable('reason');
+                if ($reason) {
+                    $logger->err($reason);
+                }
+
+                $exception = $result->getVariable('exception');
+                if ($exception) {
+                    $message = $exception->__toString();
+                    $logger->err($message);
+                }
             }
 
-            $exception = $result->getVariable('exception');
-            if ($exception) {
-                $message = $exception->getMessage();
-                $logger->err($message);
-            }
+            $variables = $result->getVariables();
+        } elseif ($result instanceof ResponseInterface) {
+            $variables = $result->getContent();
         }
-
-        $variables = $result->getVariables();
-
-        $return = json_encode($variables, JSON_UNESCAPED_UNICODE);
-        $logger->info($return);
+        // $return = json_encode($variables, JSON_UNESCAPED_UNICODE);
+        // $logger->info($return);
 
         return ;
     }
