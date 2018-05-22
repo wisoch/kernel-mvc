@@ -18,6 +18,7 @@ class ModelFactory implements FactoryInterface
                 'ModelManager'
             ));
         }
+
         $models = $container->get('ModelManager');
 
         return new Model($models);

@@ -44,10 +44,10 @@ abstract class AbstractModel implements ModelInterface
      * Get plugin instance
      *
      * @param  string     $name    Name of plugin to return
-     * @param  null|array $options Options to pass to plugin constructor (if not already instantiated)
+     * @param  array $options Options to pass to plugin constructor (if not already instantiated)
      * @return mixed
      */
-    public function plugin($name, array $options = null)
+    public function plugin($name, array $options = [])
     {
         return $this->getPluginManager()->get($name, $options);
     }
