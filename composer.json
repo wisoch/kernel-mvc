@@ -1,6 +1,7 @@
 {
     "name": "kernel/kernel-mvc",
     "description": "Kernel MVC",
+
     "license": "BSD-3-Clause",
     "autoload": {
         "psr-4": {
